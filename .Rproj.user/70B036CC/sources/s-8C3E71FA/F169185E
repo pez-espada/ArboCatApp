@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1549334503080.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F169185E",
+    "lastKnownWriteTime" : 1549558619,
+    "last_content_update" : 1549558619330,
+    "path" : "~/carlos-code/R/Texas/ArboCatApp/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+        "cursorPosition" : "31,2",
+        "marks" : "<:31,2\n>:37,2",
+        "scrollLine" : "11"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
