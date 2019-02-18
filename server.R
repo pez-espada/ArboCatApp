@@ -16,7 +16,20 @@
                   ProbabilidadEpidemiaMedio, 
                   ProbabilidadEpidemiaAlto)
 
+  
+    #load("SimulBajoRiesgo.rdata")
+    #load("SimulMedioRiesgo.rdata")
+    SimulAltoRiesgo <- load("data/SimulAltoRiesgo.rdata")
+    #CatalunyaData <- load("data/CatalunyaData.rdata")
+    load("data/CatalunyaData.rdata")
+    CatalunyaDem <- load("data/CatalunyaDem.rdata")
+    source("outbreak_analysis_fxns.R")
+    source("plotting_fxns.R")
 
+  
+  
+    
+    
 server <- function(input, output, session) {
  
    
@@ -149,10 +162,79 @@ server <- function(input, output, session) {
 
 ########
   # Print data table if checked
-  output$myTable <- DT::renderDataTable(
+  output$myTable <- DT::renderDataTable({
       DT::datatable(data = myDataTable,
                     rownames = FALSE)
-  )
+    })
+  
+
+  
+########  
+  # Plot Muninicipality Final Size
+  output$finalSize <- renderPlot({
+    
+    ##load("SimulBajoRiesgo.rdata")
+    ##load("SimulMedioRiesgo.rdata")
+    #SimulAltoRiesgo <- load("data/SimulAltoRiesgo.rdata")
+    ##CatalunyaData <- load("data/CatalunyaData.rdata")
+    #load("data/CatalunyaData.rdata")
+    #CatalunyaDem <- load("data/CatalunyaDem.rdata")
+    #source("outbreak_analysis_fxns.R")
+    #source("plotting_fxns.R")
+    
+    
+    nameMunicip <- input$municipality
+    nameMunicip<-paste("^",nameMunicip,"$", sep="")
+    pos<-grep(nameMunicip, CatalunyaData$NAMEUNIT)
+    plot_final_sizes(outbreak_sim[[pos]]) 
+    
+  })
+  
+  # Plot Municipality Outbreaks Only
+  output$plot_Dengue_outbreaks_only <- renderPlot({
+    
+    ##load("SimulBajoRiesgo.rdata")
+    ##load("SimulMedioRiesgo.rdata")
+    #SimulAltoRiesgo <- load("data/SimulAltoRiesgo.rdata")
+    ##CatalunyaData <- load("data/CatalunyaData.rdata")
+    #load("data/CatalunyaData.rdata")
+    #CatalunyaDem <- load("data/CatalunyaDem.rdata")
+    #source("outbreak_analysis_fxns.R")
+    #source("plotting_fxns.R")
+    
+    
+    nameMunicip <- input$municipality
+    nameMunicip<-paste("^",nameMunicip,"$", sep="")
+    pos<-grep(nameMunicip, CatalunyaData$NAMEUNIT)
+    plot_zika_outbreaks(outbreak_sim[[pos]]) 
+    
+  })
+  
+  
+  # Plot Municipality Outbreaks All
+  output$plot_Dengue_outbreaks_all <- renderPlot({
+    
+    ##load("SimulBajoRiesgo.rdata")
+    ##load("SimulMedioRiesgo.rdata")
+    #SimulAltoRiesgo <- load("data/SimulAltoRiesgo.rdata")
+    ##CatalunyaData <- load("data/CatalunyaData.rdata")
+    #load("data/CatalunyaData.rdata")
+    #CatalunyaDem <- load("data/CatalunyaDem.rdata")
+    #source("outbreak_analysis_fxns.R")
+    #source("plotting_fxns.R")
+    
+    
+    nameMunicip <- input$municipality
+    nameMunicip<-paste("^",nameMunicip,"$", sep="")
+    pos<-grep(nameMunicip, CatalunyaData$NAMEUNIT)
+    plot_zika_outbreaks(outbreak_sim[[pos]], cases = "all") 
+    
+  })
+  
+ 
+  
+  
+   
   
 }
 

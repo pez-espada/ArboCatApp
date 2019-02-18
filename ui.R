@@ -21,7 +21,7 @@ ui <- fluidPage(
         wellPanel(
           h4("Outbreak Risk Level:"),
           selectInput(inputId = "riskLevel",
-                      label = "Level:",
+                      label = NULL,
                       choices = c("high" = "ProbabilidadEpidemiaAlto", 
                                  "med" = "ProbabilidadEpidemiaMedio", 
                                  "low" = "ProbabilidadEpidemiaBaja"),
@@ -34,7 +34,7 @@ ui <- fluidPage(
         wellPanel(
           h4("Select Covariate:"),
           selectInput(inputId = "covariate",
-                      label = "Kind:",
+                      label = NULL,
                       choices = c("Temp" = "Tavg", 
                                   "GDP" = "GDP.test", 
                                   "Mosq. Abund." = "mosq.abund.MosqAlert",
@@ -42,7 +42,20 @@ ui <- fluidPage(
                       selected = "Tavg")
           ) # for wellPanel
       ), # forconditionPanel
+     
+      conditionalPanel(
+        condition="input.tabselected == 4",
+        wellPanel(
+          h4("Select Municipality:"),
+          selectInput(inputId = "municipality",
+                      label = NULL,
+                      choices = mydata$NAMEUNIT,
+                      selected = "NAMEUNIT")
+          ) # for wellPanel
+      ), # forconditionPanel
       
+      
+       
       width = 2  
     ), # for sidebarPanel
   
@@ -51,9 +64,16 @@ ui <- fluidPage(
   # map
   mainPanel(
   # App title
-  titlePanel(h3("ArboCat - Assessing Arbovirals' Risk in Catalonia",
-                img(src = './img/arbocat_logo.png', height=50, width=50) ), windowTitle = "ArboCat"), 
-  # 
+  titlePanel(#img(src = "arbocat_logo.png"), 
+    h2("ArboCat - Assessing Arbovirals' Risk in Catalonia",
+                img(src = 'ISGlobal_Logo.png', height=180, width=280) ), windowTitle = "ArboCat"), 
+    
+   
+  #titlePanel(title=div(id="title", img(height = 120,
+  #                                     width = 120,
+  #                                     src = "ISGlobal_Logo.png"), 
+  #                     "ArboCat - Assessing Arbovirals' Risk in Catalonia"), img(src = "arbocat_logo.png")), 
+  
   
   tabsetPanel(type = "tabs", id = "tabselected",
               # Tab 1 Riks Maps
@@ -66,8 +86,8 @@ ui <- fluidPage(
               
               # Tab 2 Covariates Maps
               tabPanel("Covariate Maps", value = 2,
-                       leafletOutput("myMapCovariates", height = 1000),
-                       h5("Put the covariate maps here, Temp, PBI, Mosq abundace, Population, importation risk,")
+                       leafletOutput("myMapCovariates", height = 1000)#,
+                       #h5("Put the covariate maps here, Temp, PBI, Mosq abundace, Population, importation risk,")
                        ),
               
               # Tab 3 Data Table
@@ -77,8 +97,13 @@ ui <- fluidPage(
                        ),
               
               # Tab 4 scatter plots and histograms, value = 4,
-              tabPanel("Scatter Plots and Histograms", 
-                       h3("Put the scateer plots and histograms here")
+              tabPanel("Simulations Plots and Histograms", value = 4, 
+                       #h3("Put the simulation plots and histograms here"),
+                       plotOutput(outputId = "finalSize", height = 250, width = 500),
+                       #br(),
+                       plotOutput(outputId = "plot_Dengue_outbreaks_only", height = 250, width = 500),
+                       #br()
+                       plotOutput(outputId = "plot_Dengue_outbreaks_all", height = 250, width = 500)
                        ),
               
               # Tab 4 about, value = 5,
@@ -92,6 +117,6 @@ ui <- fluidPage(
   width = 10
 
   
-  ) # for main panel
+    ) # for main panel
   ) # for sidebarLayaout  
 ) # for fluidPage
